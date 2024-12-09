@@ -1,74 +1,81 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Platform, useColorScheme } from 'react-native';
+import ParallaxScrollView from '@/components/default/ParallaxScrollView';
+import { ThemedText } from '@/components/default/ThemedText';
+import { ThemedView } from '@/components/default/ThemedView';
+import RecipesIngredients from '@/components/RecipesIngredients';
+import { Image } from 'expo-image';
+import { ScaledSheet } from 'react-native-size-matters';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
-}
-
-const styles = StyleSheet.create({
+const recipes = ScaledSheet.create({
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+
+  titleText: {
+    color: '#C59D58',
+    fontSize: '24@s'
+
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
+
+  titleTextDark: {
+    color: '#FFF',
+    fontSize: '24@s'
+  },
+
+  reactBanner: {
     bottom: 0,
     left: 0,
-    position: 'absolute',
+    right: 0,
+    top: 0,
+    height: 'auto',
+    width: '100%',
+    position: 'absolute'
   },
+
+  reactIcon: {
+    width: '28@s',
+    height: '32@s',
+    backgroundSize: 'contain',
+    marginLeft: 12,
+  }
 });
+
+export default function HomeScreen() {
+  const colorScheme = useColorScheme()
+  const blurhash =
+  '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
+
+  return (
+    <ParallaxScrollView
+      headerBackgroundColor={{ light: '#f0f0f0', dark: '#1D3D47' }}
+      headerImage={
+        <Image
+          source={require('@/assets/images/banner.jpg')}
+          style={recipes.reactBanner}
+          contentFit="cover"
+          transition={1000}
+          accessible
+          accessibilityLabel='Ícone de receitas'
+        />
+      }>
+      <ThemedView style={recipes.titleContainer}>
+        <ThemedText type="title" style={colorScheme === 'light' ? recipes.titleText : recipes.titleTextDark}>Receitas</ThemedText>
+        <Image
+          source={colorScheme === 'light' ? require('@/assets/icons/receitas-selected.svg') : require('@/assets/icons/receitas.svg')}
+          contentFit="contain"
+          transition={1000}
+          placeholder={{ blurhash }}
+          style={recipes.reactIcon}
+          accessible
+          accessibilityLabel='Ícone de receitas'
+        />
+      </ThemedView>
+      <RecipesIngredients />
+    </ParallaxScrollView>
+  );
+}
+
+
