@@ -5,7 +5,7 @@ import { Image } from 'expo-image';
 import { HapticTab } from '@/components/default/HapticTab';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
+import { backgroundMain, Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { ThemedView } from '@/components/default/ThemedView';
 import { ScaledSheet } from 'react-native-size-matters';
@@ -15,7 +15,8 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 10,
-    borderBottomWidth: 1,
+    paddingHorizontal: 10,
+
   },
   topBarButton: {
     padding: 10,
@@ -23,37 +24,50 @@ const styles = ScaledSheet.create({
     alignItems: 'center'
   },
   topBarText: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: '14@s',
+    fontWeight: 'bold',
     color: '#fff',
     marginLeft: 14
   },
   image: {
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
-    margin: 'auto',
-    height: '30@s',
-    width: '30@s',
-    backgroundSize: 'cover'
-  }
+    width: '28@s',
+    height: '32@s',
+    backgroundSize: 'contain',
+    
+  },
+  tabIconContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column', 
+    padding: 5, 
+    borderRadius: 10,
+  },
+  tabIconLabel: {
+    fontSize: 12,
+    marginTop: 5, 
+  },
 });
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const colorBackground = [
+    styles.topBar,
+    colorScheme === 'light' && { backgroundColor: backgroundMain },
+  ];
+  
+  
   const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
   return (
     <>
-      <ThemedView style={styles.topBar}>
+      <ThemedView style={colorBackground}>
         <TouchableOpacity style={styles.topBarButton}>
           <Image
             style={styles.image}
             alt='Outros Apps'
-            source="@/assets/icons/outros-app.png"
+            source={require("@/assets/icons/outros-app.png")}
             placeholder={{ blurhash }}
-            contentFit="cover"
+            contentFit="contain"
             transition={1000}
             accessible
             accessibilityLabel='Outros APPS'
@@ -65,7 +79,7 @@ export default function TabLayout() {
         <Image
             style={styles.image}
             alt='Configurações'
-            source="@/assets/icons/setting.png"
+            source={require("@/assets/icons/setting.png")}
             placeholder={{ blurhash }}
             contentFit="cover"
             transition={1000}
@@ -77,15 +91,17 @@ export default function TabLayout() {
       </ThemedView>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+          tabBarActiveTintColor: '#fff',
           headerShown: false,
           tabBarButton: HapticTab,
           tabBarBackground: TabBarBackground,
+          tabBarLabelPosition: 'below-icon',
           tabBarStyle: Platform.select({
-            ios: {
-              position: 'absolute', // Flutua sobre a tela
+            default: {
+              backgroundColor: colorScheme === 'light' ? backgroundMain : Colors[colorScheme ?? 'dark'].background,
+              paddingTop: 20,
+              height:  80
             },
-            default: {},
           }),
         }}
       >
@@ -93,14 +109,29 @@ export default function TabLayout() {
           name="index"
           options={{
             title: 'Receitas',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+            tabBarIcon: ({ color }) => <IconSymbol size={50} name="house.fill" color={color} style={{marginBottom: 20, height: 50}}/>,
           }}
         />
+
         <Tabs.Screen
           name="ingredients"
           options={{
             title: 'Ingredientes',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+            tabBarIcon: ({ color }) => <IconSymbol size={50} name="house.fill" color={color} style={{marginBottom: 20, height: 50}}/>,
+          }}
+        />
+        <Tabs.Screen
+          name="return"
+          options={{
+            title: 'Retornos',
+            tabBarIcon: ({ color }) => <IconSymbol size={50} name="house.fill" color={color} style={{marginBottom: 20, height: 50}}/>,
+          }}
+        />
+        <Tabs.Screen
+          name="logs"
+          options={{
+            title: 'Histórico',
+            tabBarIcon: ({ color }) => <IconSymbol size={50} name="house.fill" color={color} style={{marginBottom: 20, height: 50}}/>,
           }}
         />
       </Tabs>

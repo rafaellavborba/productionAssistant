@@ -12,7 +12,7 @@ const headerMain = StyleSheet.create({
     stepContainer: {
         gap: 8,
         marginBottom: 8,
-        borderColor: 'white'
+        borderColor: 'white',
       },
 })
 

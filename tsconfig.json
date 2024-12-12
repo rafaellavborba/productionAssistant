@@ -6,12 +6,12 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+, "hooks/index.js", "database/repository/useStorage.js"  ]
 }

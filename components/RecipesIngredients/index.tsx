@@ -1,21 +1,25 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import React from 'react';
 import { ThemedView } from '@/components/default/ThemedView';
-import { useIsFocused } from '@react-navigation/native';
 import CardProduct from './CardProduct';
+import { ScaledSheet } from 'react-native-size-matters';
 
-const recipesIngredients = StyleSheet.create({
+
+const recipesIngredients = ScaledSheet.create({
+    
     stepContainer: {
         gap: 8,
-        marginBottom: 8,
-      },
+    },
+   
 })
 
 export default function RecipesIngredients(){
-    const isFocused = useIsFocused();
+
+ 
     return (
-        <ThemedView style={recipesIngredients.stepContainer}>
-            <CardProduct />
-        </ThemedView>
+            <ThemedView style={recipesIngredients.stepContainer}>
+                <CardProduct />
+                <CardProduct />
+            </ThemedView>
     )
 }
 
